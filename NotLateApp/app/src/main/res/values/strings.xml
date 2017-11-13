@@ -19,4 +19,9 @@
     <string name="password_example">Password123</string>
     <string name="submit">Submit</string>
     <string name="title_activity_test">test</string>
+    <string name="created_event_title">Title:</string>
+    <string name="created_event_date">Date:</string>
+    <string name="created_event_location">Location:</string>
+    <string name="created_event_members">Members:</string>
+    <string name="submit_changes">Submit changes</string>
 </resources>

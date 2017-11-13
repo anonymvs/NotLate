@@ -3,34 +3,40 @@ package hu.bme.aut.notlateapp.model;
 import android.view.View;
 import android.widget.TextView;
 
+import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
  * Created by hegedus on 2017.11.04..
  */
 
-public class Event {
-    public Date date;
+public class Event implements Serializable{
+    public Calendar date;
     public String timeLeft;
     public String title;
     //TODO: owner should resemble the user who made the event
     public String owner;
     //Android.location class maybe...
     public String location;
+    //TODO: members should be something else than string, presumably its own class
+    public String members;
 
-    public Event(Date date, String timeLeft, String title, String owner, String location) {
+    public Event(Calendar date, String timeLeft, String title, String owner, String location, String members) {
         this.date = date;
         this.timeLeft = timeLeft;
         this.title = title;
         this.owner = owner;
         this.location = location;
+        this.members = members;
+
     }
 
-    public Date getDate() {
+    public Calendar getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Calendar date) {
         this.date = date;
     }
 
@@ -64,5 +70,13 @@ public class Event {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getMembers() {
+        return members;
+    }
+
+    public void setMembers(String members) {
+        this.members = members;
     }
 }
