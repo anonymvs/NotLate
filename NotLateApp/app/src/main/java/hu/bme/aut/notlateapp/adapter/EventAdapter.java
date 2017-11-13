@@ -3,6 +3,7 @@ package hu.bme.aut.notlateapp.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
@@ -55,6 +56,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder>{
         holder.title.setText(event.getTitle());
         holder.owner.setText(event.getOwner());
         holder.location.setText(event.getLocation());
+
+        if(position % 2 == 0)
+            holder.mView.setBackgroundColor(Color.parseColor("#e2e2e2"));
+        else
+            //holder.mView.setBackgroundColor(Color.parseColor("#d3d3d3"));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +120,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder>{
     public void removeEvent(Event e) {
         int position = events.indexOf(e);
         events.remove(e);
+        notifyItemRemoved(position);
+    }
+
+    public void removeEvent(int position) {
+        events.remove(position);
         notifyItemRemoved(position);
     }
 

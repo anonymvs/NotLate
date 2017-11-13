@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 import java.util.Calendar;
@@ -38,21 +39,22 @@ public class MainActivity extends AppCompatActivity {
 
         myAdapter = new EventAdapter();
 
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;// true if moved, false otherwise
+            }
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                myAdapter.removeEvent(viewHolder.getAdapterPosition());
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(myRecyclerView);
+
         myAdapter.addEvent(new Event(Calendar.getInstance(), "2 nap", "Title1", "by: Owner", "Here: Bp, bla utca 45.", "members"));
         myAdapter.addEvent(new Event(Calendar.getInstance(), "2 nap", "Title2", "by: Owner", "Here: Bp, bla utca 45.", "members"));
         myAdapter.addEvent(new Event(Calendar.getInstance(), "2 nap", "Title3", "by: Owner", "Here: Bp, bla utca 45.", "members"));
-
-        /*if (getIntent().getExtras() != null ) {
-            if(getIntent().getExtras().containsKey(EventCreateActivity.KEY_EDIT_EVENT)) {
-                Event editedEvent = (Event) getIntent().getSerializableExtra(KEY_EDIT_EVENT);
-                int position = getIntent().getIntExtra(KEY_EDIT_ID, -1);
-
-                myAdapter.setEvent(position, editedEvent);
-            } else if(getIntent().getExtras().containsKey(EventCreateActivity.KEY_NEW_EVENT)){
-                Event newEvent = (Event) getIntent().getSerializableExtra(EventCreateActivity.KEY_NEW_EVENT);
-                myAdapter.addEvent(newEvent);
-            }
-        }*/
 
         myRecyclerView.setAdapter(myAdapter);
 

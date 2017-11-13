@@ -56,9 +56,9 @@
 
     </RelativeLayout>
 
-    <View
+    <!--<View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#123456" />
+        android:background="#123456" />-->
 
 </LinearLayout>
