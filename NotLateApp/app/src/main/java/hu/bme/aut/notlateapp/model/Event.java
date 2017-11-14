@@ -4,8 +4,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by hegedus on 2017.11.04..
@@ -34,6 +36,11 @@ public class Event implements Serializable{
 
     public Calendar getDate() {
         return date;
+    }
+
+    public String getDateFormatted() {
+        DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.JAPAN);
+        return df.format(date.getTime());
     }
 
     public void setDate(Calendar date) {

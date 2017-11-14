@@ -1,51 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:baselineAligned="false"
-    android:divider="?android:attr/dividerHorizontal"
-    android:orientation="horizontal"
-    android:showDividers="middle"
     tools:context="hu.bme.aut.notlateapp.MainActivity">
 
-    <!--
-    This layout is a two-pane layout for the Todos
-    master/detail flow.
-
-    -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
     <FrameLayout
-        android:id="@+id/fragment_container"
+        android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/event_list"
-        android:background="#FFFFFF"
-        android:layout_alignParentTop="true">
+        android:layout_above="@+id/navigation">
+
     </FrameLayout>
 
-    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/event_list"
-        android:name="hu.bme.aut.amorg.examples.todo.TodoListFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="LinearLayoutManager"
-        tools:context="hu.bme.aut.notlateapp.MainActivity"
-        tools:listitem="@layout/event_list_content" />
-
-    </RelativeLayout>
-
-    <android.support.design.widget.FloatingActionButton
+    <!--<android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/ic_add_white_24dp" />
+        app:srcCompat="@drawable/ic_add_white_24dp" />-->
 
-</android.support.design.widget.CoordinatorLayout>
+    <android.support.design.widget.BottomNavigationView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemTextColor="#ffffff"
+        app:itemBackground="@color/primaryDarkColor"
+        app:menu="@menu/menu_bottom_navigation" />
+
+</RelativeLayout>
