@@ -10,14 +10,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -25,13 +22,9 @@ import java.util.List;
 import java.util.Locale;
 
 import hu.bme.aut.notlateapp.EventCreateActivity;
-import hu.bme.aut.notlateapp.EventDetailsFragment;
-import hu.bme.aut.notlateapp.EventListFragment;
-import hu.bme.aut.notlateapp.MainActivity;
+import hu.bme.aut.notlateapp.fragments.EventDetailsFragment;
 import hu.bme.aut.notlateapp.R;
 import hu.bme.aut.notlateapp.model.Event;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
 /**
  * Created by hegedus on 2017.11.04..

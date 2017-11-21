@@ -1,4 +1,4 @@
-package hu.bme.aut.notlateapp;
+package hu.bme.aut.notlateapp.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,10 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import hu.bme.aut.notlateapp.R;
 import hu.bme.aut.notlateapp.adapter.EventAdapter;
 import hu.bme.aut.notlateapp.model.Event;
-
-import static hu.bme.aut.notlateapp.R.id.tvTitle;
 
 public class EventDetailsFragment extends Fragment {
     private Event myEvent;

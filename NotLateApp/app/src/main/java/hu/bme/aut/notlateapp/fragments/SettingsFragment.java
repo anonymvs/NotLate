@@ -1,10 +1,12 @@
-package hu.bme.aut.notlateapp;
+package hu.bme.aut.notlateapp.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import hu.bme.aut.notlateapp.R;
 
 public class SettingsFragment extends Fragment {
     public static SettingsFragment newInstance() {

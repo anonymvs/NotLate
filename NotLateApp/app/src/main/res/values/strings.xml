@@ -13,15 +13,30 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="email">Email:</string>
+    <string name="email">Email *</string>
+    <string name="email_login">Email</string>
     <string name="example_email_com">example@email.com</string>
-    <string name="password">Password:</string>
+    <string name="password">Password *</string>
+    <string name="password_login">Password</string>
     <string name="password_example">Password123</string>
-    <string name="submit">Submit</string>
+    <string name="login">Log in</string>
     <string name="title_activity_test">test</string>
     <string name="created_event_title">Title:</string>
     <string name="created_event_date">Date:</string>
     <string name="created_event_location">Location:</string>
     <string name="created_event_members">Members:</string>
     <string name="submit_changes">Submit changes</string>
+    <string name="register">Register</string>
+    <string name="first_name">First Name *</string>
+    <string name="last_name">Last Name *</string>
+    <string name="firs_name_hint">John</string>
+    <string name="last_name_hint">Doe</string>
+    <string name="password_again">Password again *</string>
+    <string name="required_fields">* Required fields</string>
+
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
 </resources>

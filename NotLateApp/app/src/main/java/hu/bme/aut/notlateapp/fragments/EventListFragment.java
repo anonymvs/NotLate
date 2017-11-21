@@ -1,4 +1,4 @@
-package hu.bme.aut.notlateapp;
+package hu.bme.aut.notlateapp.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 
 import java.util.Calendar;
 
+import hu.bme.aut.notlateapp.EventCreateActivity;
+import hu.bme.aut.notlateapp.R;
 import hu.bme.aut.notlateapp.adapter.EventAdapter;
 import hu.bme.aut.notlateapp.model.Event;
 

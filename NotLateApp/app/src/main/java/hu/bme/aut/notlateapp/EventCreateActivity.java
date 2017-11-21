@@ -21,6 +21,8 @@ import java.util.Locale;
 
 import hu.bme.aut.notlateapp.model.Event;
 
+import static hu.bme.aut.notlateapp.R.id.btnCreate;
+
 public class EventCreateActivity extends AppCompatActivity {
 
     public static final String KEY_EDIT_EVENT = "KEY_EDIT_PLACE";
@@ -29,13 +31,14 @@ public class EventCreateActivity extends AppCompatActivity {
     public static final int KEY_NEW_EVENT_CODE = 1;
     public static final String KEY_EDIT_ID = "KEY_EDIT_ID";
 
+    private DatePickerDialog.OnDateSetListener date;
+    private Button btnCreate;
 
-    DatePickerDialog.OnDateSetListener date;
     private Calendar calendar;
-    EditText title;
-    EditText location;
-    EditText members;
-    TextView setEventDateTV;
+    private EditText title;
+    private EditText location;
+    private EditText members;
+    private TextView setEventDateTV;
     private int year, month, day;
 
     private boolean inEditMode = false;
@@ -47,45 +50,11 @@ public class EventCreateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_create);
 
-        calendar = Calendar.getInstance();
+        fieldBinding();
 
-        setEventDateTV = (TextView) findViewById(R.id.set_event_dateTV);
-        updateLabel();
-
-        Button btnCreate = (Button) findViewById(R.id.btnCreate);
-
-        title = (EditText) findViewById(R.id.etTitle);
-        location = (EditText) findViewById(R.id.etLocation);
-        members = (EditText) findViewById(R.id.etMembers);
-
-        if (getIntent().getExtras() != null &&
-                getIntent().getExtras().containsKey(KEY_EDIT_EVENT)) {
-            inEditMode = true;
-
-            eventToEdit = (Event) getIntent().getSerializableExtra(KEY_EDIT_EVENT);
-            eventToEditID = getIntent().getIntExtra(KEY_EDIT_ID, -1);
-
-            title.setText(eventToEdit.getTitle());
-
-            calendar = eventToEdit.getDate();
-            updateLabel();
-
-            location.setText(eventToEdit.getLocation());
-
-            members.setText(eventToEdit.getMembers());
-
-            btnCreate.setText(R.string.submit_changes);
+        if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(KEY_EDIT_EVENT)) {
+            editEventSetup();
         }
-
-        date = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.DAY_OF_MONTH, day);
-                updateLabel();
-            }
-        };
 
         setEventDateTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,23 +82,7 @@ public class EventCreateActivity extends AppCompatActivity {
         });
     }
 
-    private void updateLabel() {
-        /*String myFormat = "yy/MM/dd";
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);*/
-        DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.JAPAN);
-        setEventDateTV.setText(df.format(calendar.getTime()));
-    }
-
     public void onEventCreated(Event newEvent) {
-        /*Intent i = new Intent(EventCreateActivity.this, EventCreateActivity.class);
-        i.setClass(EventCreateActivity.this, EventCreateActivity.class);
-        if(inEditMode) {
-            i.putExtra(EventCreateActivity.KEY_EDIT_EVENT, eventToEdit);
-        } else {
-            i.putExtra(EventCreateActivity.KEY_NEW_EVENT, newTodo);
-        }
-        i.putExtra(EventCreateActivity.KEY_EDIT_ID, eventToEditID);
-        this.startActivity(i);*/
         if(inEditMode) {
             Intent i = new Intent(EventCreateActivity.this, MainActivity.class);
             i.putExtra(KEY_EDIT_EVENT, newEvent);
@@ -142,6 +95,54 @@ public class EventCreateActivity extends AppCompatActivity {
             setResult(KEY_NEW_EVENT_CODE, i);
             finish();
         }
+    }
+
+    private void fieldBinding() {
+        calendar = Calendar.getInstance();
+
+        setEventDateTV = (TextView) findViewById(R.id.set_event_dateTV);
+        updateLabel();
+
+        btnCreate = (Button) findViewById(R.id.btnCreate);
+
+        title = (EditText) findViewById(R.id.etTitle);
+        location = (EditText) findViewById(R.id.etLocation);
+        members = (EditText) findViewById(R.id.etMembers);
+
+        date = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, day);
+                updateLabel();
+            }
+        };
+    }
+
+    private void editEventSetup() {
+        inEditMode = true;
+
+        eventToEdit = (Event) getIntent().getSerializableExtra(KEY_EDIT_EVENT);
+        eventToEditID = getIntent().getIntExtra(KEY_EDIT_ID, -1);
+
+        title.setText(eventToEdit.getTitle());
+
+        calendar = eventToEdit.getDate();
+        updateLabel();
+
+        location.setText(eventToEdit.getLocation());
+
+        members.setText(eventToEdit.getMembers());
+
+        btnCreate.setText(R.string.submit_changes);
+    }
+
+    private void updateLabel() {
+        /*String myFormat = "yy/MM/dd";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);*/
+        DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.JAPAN);
+        setEventDateTV.setText(df.format(calendar.getTime()));
     }
 
 }

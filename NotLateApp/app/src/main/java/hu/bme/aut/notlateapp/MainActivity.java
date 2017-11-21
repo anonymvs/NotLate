@@ -1,33 +1,17 @@
 package hu.bme.aut.notlateapp;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
-import java.util.Calendar;
-import java.util.Date;
-
-import hu.bme.aut.notlateapp.adapter.EventAdapter;
-import hu.bme.aut.notlateapp.model.Event;
-
-import static hu.bme.aut.notlateapp.EventCreateActivity.KEY_EDIT_EVENT;
-import static hu.bme.aut.notlateapp.EventCreateActivity.KEY_EDIT_ID;
-import static hu.bme.aut.notlateapp.R.id.btnCreate;
+import hu.bme.aut.notlateapp.fragments.AccountFragment;
+import hu.bme.aut.notlateapp.fragments.EventListFragment;
+import hu.bme.aut.notlateapp.fragments.SettingsFragment;
+import hu.bme.aut.notlateapp.fragments.StatisticsFragment;
 
 
 public class MainActivity extends AppCompatActivity {
