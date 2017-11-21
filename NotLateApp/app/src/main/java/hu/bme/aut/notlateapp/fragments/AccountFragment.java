@@ -11,10 +11,8 @@ import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import hu.bme.aut.notlateapp.EventCreateActivity;
 import hu.bme.aut.notlateapp.LoginActivity;
 import hu.bme.aut.notlateapp.R;
-import hu.bme.aut.notlateapp.RegistrationActivity;
 
 /**
  * Created by hegedus on 2017.11.14..

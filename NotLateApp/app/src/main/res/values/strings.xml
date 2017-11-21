@@ -33,6 +33,8 @@
     <string name="last_name_hint">Doe</string>
     <string name="password_again">Password again *</string>
     <string name="required_fields">* Required fields</string>
+    <string name="user_name">Username *</string>
+    <string name="time">Time:</string>
 
     <string-array name="gender">
         <item>Male</item>

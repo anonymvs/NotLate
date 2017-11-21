@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -25,6 +26,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private EditText etFirstName;
     private EditText etLastName;
+    private EditText etUsername;
     private EditText etEmail;
     private EditText etPassword;
     private EditText etPasswordAgain;
@@ -50,6 +52,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         etFirstName = (EditText) findViewById(R.id.etFirstName);
         etLastName = (EditText) findViewById(R.id.etLastName);
+        etUsername = (EditText) findViewById(R.id.etUsername);
         etEmail = (EditText) findViewById(R.id.emailEditText);
         etPassword = (EditText) findViewById(R.id.passwordEditText);
         etPasswordAgain = (EditText) findViewById(R.id.passwordAgainEditText);
@@ -77,6 +80,9 @@ public class RegistrationActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 } else {
                     sendVerificationEmail();
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(etUsername.getText().toString()).build();
+                    user.updateProfile(profileUpdates);
                     Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                     intent.putExtra(REGISTRATION_COMPLETED, true);
                     startActivity(intent);
@@ -111,7 +117,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 isFilled(etLastName) &&
                 isFilled(etEmail) &&
                 isFilled(etPassword) &&
-                isFilled(etPasswordAgain)) {
+                isFilled(etPasswordAgain) &&
+                isFilled(etUsername)) {
             if(etPassword.getText().toString().equals(etPasswordAgain.getText().toString())) {
                 return true;
             } else {

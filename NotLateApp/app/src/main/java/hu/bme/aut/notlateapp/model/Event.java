@@ -5,46 +5,74 @@ import android.widget.TextView;
 
 import java.io.Serializable;
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by hegedus on 2017.11.04..
  */
 
 public class Event implements Serializable{
-    public Calendar date;
-    public String timeLeft;
+    public String eventID;
     public String title;
-    //TODO: owner should resemble the user who made the event
-    public String owner;
-    //Android.location class maybe...
-    public String location;
-    //TODO: members should be something else than string, presumably its own class
-    public String members;
+    public String owner; //owner's user ID
+    public String date;
+    public String time;
+    public String timeLeft;
+    public String location; //android location conversion
+    public List<String> members; //separated list of user IDs
 
-    public Event(Calendar date, String timeLeft, String title, String owner, String location, String members) {
-        this.date = date;
-        this.timeLeft = timeLeft;
+    public Event() {}
+
+    public Event(String title, Calendar date, String location, List<String> members) {
         this.title = title;
-        this.owner = owner;
+        this.date = calendarToString(date);
+        this.time = calendarToHourAndMinute(date);
         this.location = location;
         this.members = members;
+        this.timeLeft = calculateDaysRemaining(date);
+    }
 
+    public String calendarToHourAndMinute(Calendar date) {
+        return date.get(Calendar.HOUR_OF_DAY) + ":" + date.get(Calendar.MINUTE);
+    }
+
+    private String calculateDaysRemaining(Calendar date) {
+        Calendar current = Calendar.getInstance();
+        return Long.toString(TimeUnit.DAYS.convert(date.getTime().getTime() - current.getTime().getTime(), TimeUnit.DAYS));
+    }
+
+    public String calendarToString(Calendar date) {
+        DateFormat df = new SimpleDateFormat("yyyy.MM.dd");
+        String ret;
+        ret = df.format(date.getTime());
+        return ret;
+    }
+
+    public Calendar stringToCalendar(String str) {
+        DateFormat df = new SimpleDateFormat("yyyy.MM.dd");
+        Calendar cal = Calendar.getInstance();
+        try {
+            cal.setTime(df.parse(str));
+            return cal;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public Calendar getDate() {
-        return date;
-    }
-
-    public String getDateFormatted() {
-        DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.JAPAN);
-        return df.format(date.getTime());
+        return stringToCalendar(date);
     }
 
     public void setDate(Calendar date) {
-        this.date = date;
+        this.date = calendarToString(date);
+        timeLeft = calculateDaysRemaining(date);
     }
 
     public String getTimeLeft() {
@@ -79,11 +107,23 @@ public class Event implements Serializable{
         this.location = location;
     }
 
-    public String getMembers() {
+    public List<String> getMembers() {
         return members;
     }
 
-    public void setMembers(String members) {
+    public void setMembers(List<String> members) {
         this.members = members;
+    }
+
+    public String getEventID() {
+        return eventID;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

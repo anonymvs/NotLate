@@ -12,9 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
-import hu.bme.aut.notlateapp.EventCreateActivity;
+import hu.bme.aut.notlateapp.CreateEventActivity;
 import hu.bme.aut.notlateapp.R;
 import hu.bme.aut.notlateapp.adapter.EventAdapter;
 import hu.bme.aut.notlateapp.model.Event;
@@ -63,9 +65,13 @@ public class EventListFragment extends Fragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(myRecyclerView);
 
-        myAdapter.addEvent(new Event(Calendar.getInstance(), "2 nap", "Title1", "by: Owner", "Here: Bp, bla utca 45.", "members"));
-        myAdapter.addEvent(new Event(Calendar.getInstance(), "2 nap", "Title2", "by: Owner", "Here: Bp, bla utca 45.", "members"));
-        myAdapter.addEvent(new Event(Calendar.getInstance(), "2 nap", "Title3", "by: Owner", "Here: Bp, bla utca 45.", "members"));
+
+        /*//load up list with one dummy DAFDSFSDADSFASD
+        List<String> members = new ArrayList<>();
+        members.add("memberOne");
+        myAdapter.addEvent(new Event("Title1", Calendar.getInstance(), System.currentTimeMillis(), "Budapest, Placeholder street 45", members));
+        // DAFADSFDASDFDSFFSAFSDF*/
+
 
         myRecyclerView.setAdapter(myAdapter);
 
@@ -75,29 +81,29 @@ public class EventListFragment extends Fragment {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                Intent intent = new Intent(getContext(), EventCreateActivity.class);
+                Intent intent = new Intent(getContext(), CreateEventActivity.class);
                 startActivityForResult(intent, CREATE_EVENT);
             }
         });
 
     }
 
-    @Override
+    /*@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case CREATE_EVENT:
-                if(resultCode == EventCreateActivity.KEY_NEW_EVENT_CODE) {
-                    Event newEvent = (Event) data.getSerializableExtra(EventCreateActivity.KEY_NEW_EVENT);
+                if(resultCode == CreateEventActivity.KEY_NEW_EVENT_CODE) {
+                    Event newEvent = (Event) data.getSerializableExtra(CreateEventActivity.KEY_NEW_EVENT);
                     myAdapter.addEvent(newEvent);
                 }
 
             case EventAdapter.EDIT_EVENT:
-                if(resultCode == EventCreateActivity.KEY_EDIT_EVENT_CODE) {
-                    int position = data.getIntExtra(EventCreateActivity.KEY_EDIT_ID, -1);
-                    Event editedEvent = (Event) data.getSerializableExtra(EventCreateActivity.KEY_EDIT_EVENT);
+                if(resultCode == CreateEventActivity.KEY_EDIT_EVENT_CODE) {
+                    int position = data.getIntExtra(CreateEventActivity.KEY_EDIT_ID, -1);
+                    Event editedEvent = (Event) data.getSerializableExtra(CreateEventActivity.KEY_EDIT_EVENT);
                     if(position != -1)
                         myAdapter.setEvent(position, editedEvent);
                 }
         }
-    }
+    }*/
 }

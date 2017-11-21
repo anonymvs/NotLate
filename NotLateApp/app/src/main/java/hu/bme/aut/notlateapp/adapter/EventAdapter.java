@@ -16,12 +16,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import hu.bme.aut.notlateapp.EventCreateActivity;
+import hu.bme.aut.notlateapp.CreateEventActivity;
 import hu.bme.aut.notlateapp.fragments.EventDetailsFragment;
 import hu.bme.aut.notlateapp.R;
 import hu.bme.aut.notlateapp.model.Event;
@@ -37,8 +40,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     public static final int EDIT_EVENT = 2;
     public static final String FRAGMENT_PAYLOAD = "FRAGMENT_PAYLOAD";
 
-    private final List<Event> events = new ArrayList<>();
+    private List<Event> events = new ArrayList<>();
+    private FirebaseDbAdapter dbAdapter;
     private Context context;
+
+    public EventAdapter() {
+        dbAdapter = FirebaseDbAdapter.getInstance();
+        events = dbAdapter.getEvents();
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -52,7 +61,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         final Event event = events.get(position);
 
         DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.JAPAN);
-        holder.date.setText(df.format(event.getDate().getTime()));
+        holder.date.setText(df.format(event.getDate().getTime()) + " - " + event.getTime());
         holder.timeLeft.setText(event.getTimeLeft());
         holder.title.setText(event.getTitle());
         holder.owner.setText(event.getOwner());
@@ -92,12 +101,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                         }
                         if(R.id.edit == item.getItemId()) {
                             Event selectedPlace = (Event) getItem(position);
-                            Intent i = new Intent(context, EventCreateActivity.class);
-                            i.setClass(context, EventCreateActivity.class);
-                            i.putExtra(EventCreateActivity.KEY_EDIT_EVENT, selectedPlace);
-                            i.putExtra(EventCreateActivity.KEY_EDIT_ID, position);
+                            Intent i = new Intent(context, CreateEventActivity.class);
+                            i.setClass(context, CreateEventActivity.class);
+                            i.putExtra(CreateEventActivity.KEY_EDIT_EVENT, selectedPlace);
+                            i.putExtra(CreateEventActivity.KEY_EDIT_ID, position);
                             //(context).startActivity(i);
-                            ((Activity) context).startActivityForResult(i, EDIT_EVENT);
+                            ((Activity) context).startActivity(i);
                         }
                         return false;
                     }
@@ -115,30 +124,25 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     }
 
     public void addEvent(Event e) {
-        events.add(e);
-        notifyItemInserted(events.indexOf(e));
+        dbAdapter.createEvent(e);
+        //events.add(dbAdapter.getEvent(e.getEventID()));
+        //notifyItemInserted(events.indexOf(e));
+        notifyDataSetChanged();
     }
 
     public void removeEvent(Event e) {
         int position = events.indexOf(e);
+        dbAdapter.removeEvent(e.getEventID());
         events.remove(e);
-        notifyItemRemoved(position);
+        //notifyItemRemoved(position);
         notifyDataSetChanged();
     }
 
     public void removeEvent(int position) {
-        events.remove(position);
-        notifyItemRemoved(position);
+        dbAdapter.removeEvent(events.get(position).getEventID());
+        events.remove(events.get(position));
+        //notifyItemRemoved(position);
         notifyDataSetChanged();
-    }
-
-    public void setEvent(int position, Event e) {
-        events.set(position, e);
-        notifyItemChanged(position);
-    }
-
-    public void setBackgrounds() {
-
     }
 
     public Event getItem(int i) {
