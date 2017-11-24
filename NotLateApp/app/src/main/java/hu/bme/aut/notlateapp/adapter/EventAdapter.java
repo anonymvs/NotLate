@@ -34,10 +34,6 @@ import hu.bme.aut.notlateapp.model.Event;
  */
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
-
-    public static final int CONTEXT_ACTION_DELETE = 10;
-    public static final int CONTEXT_ACTION_EDIT = 11;
-    public static final int EDIT_EVENT = 2;
     public static final String FRAGMENT_PAYLOAD = "FRAGMENT_PAYLOAD";
 
     private List<Event> events = new ArrayList<>();

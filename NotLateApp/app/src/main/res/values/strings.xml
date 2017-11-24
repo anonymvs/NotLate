@@ -41,4 +41,17 @@
         <item>Female</item>
         <item>Other</item>
     </string-array>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+    <string-array name="themes">
+        <item>Default Theme</item>
+        <item>Dark Theme</item>
+    </string-array>
+
+    <string-array name="themes_values">
+        <item>default</item>
+        <item>dark</item>
+    </string-array>
+
 </resources>

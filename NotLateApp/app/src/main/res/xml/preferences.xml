@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="Settings or stuff"
+    android:summary="setting summary or stuff">
+
+    <PreferenceCategory>
+
+        <CheckBoxPreference
+            android:key="logged_in"
+            android:title="Keep me logged in"
+            android:summary="If checked the user will remain logged in" />
+
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

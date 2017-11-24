@@ -6,11 +6,22 @@
     android:layout_height="match_parent"
     tools:context="hu.bme.aut.notlateapp.MainActivity">
 
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primaryColor"
+        android:elevation="4dp"
+        >
+    </android.support.v7.widget.Toolbar>
+
     <FrameLayout
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/navigation">
+        android:layout_above="@+id/navigation"
+        android:layout_below="@+id/tool_bar">
 
     </FrameLayout>
 
