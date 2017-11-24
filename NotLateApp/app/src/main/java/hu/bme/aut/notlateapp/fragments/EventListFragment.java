@@ -39,6 +39,7 @@ public class EventListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -67,14 +68,6 @@ public class EventListFragment extends Fragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(myRecyclerView);
 
-
-        /*//load up list with one dummy DAFDSFSDADSFASD
-        List<String> members = new ArrayList<>();
-        members.add("memberOne");
-        myAdapter.addEvent(new Event("Title1", Calendar.getInstance(), System.currentTimeMillis(), "Budapest, Placeholder street 45", members));
-        // DAFADSFDASDFDSFFSAFSDF*/
-
-
         myRecyclerView.setAdapter(myAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.fab);
@@ -96,23 +89,4 @@ public class EventListFragment extends Fragment {
         getView().setBackgroundColor(Color.WHITE);
         getView().setClickable(true);
     }
-
-    /*@Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case CREATE_EVENT:
-                if(resultCode == CreateEventActivity.KEY_NEW_EVENT_CODE) {
-                    Event newEvent = (Event) data.getSerializableExtra(CreateEventActivity.KEY_NEW_EVENT);
-                    myAdapter.addEvent(newEvent);
-                }
-
-            case EventAdapter.EDIT_EVENT:
-                if(resultCode == CreateEventActivity.KEY_EDIT_EVENT_CODE) {
-                    int position = data.getIntExtra(CreateEventActivity.KEY_EDIT_ID, -1);
-                    Event editedEvent = (Event) data.getSerializableExtra(CreateEventActivity.KEY_EDIT_EVENT);
-                    if(position != -1)
-                        myAdapter.setEvent(position, editedEvent);
-                }
-        }
-    }*/
 }

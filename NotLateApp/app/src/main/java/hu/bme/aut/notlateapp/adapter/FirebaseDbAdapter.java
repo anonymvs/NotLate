@@ -1,20 +1,18 @@
 package hu.bme.aut.notlateapp.adapter;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
-
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
+import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import hu.bme.aut.notlateapp.model.Event;
-
-import static android.R.string.no;
 
 /**
  * Created by hegedus on 2017.11.21..
@@ -22,22 +20,23 @@ import static android.R.string.no;
 
 public class FirebaseDbAdapter {
     private static volatile FirebaseDbAdapter instance = new FirebaseDbAdapter();
-
     private static final String TAG = "MY-FirebaseDbAdapter";
 
     private FirebaseAuth mAuth;
-
-    private FirebaseDatabase database;
+    private DatabaseReference database;
     private DatabaseReference eventCloudEndPoint;
+    private EventAdapter eventAdapter;
 
     private List<Event> events;
-    private boolean b = true;
 
     private FirebaseDbAdapter() {
         mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        eventCloudEndPoint = database.getReference();
+        database = FirebaseDatabase.getInstance().getReference();
+        eventCloudEndPoint = database.child("events");
+
         events = new ArrayList<>();
+
+        initDatabase();
     }
 
     public static FirebaseDbAdapter getInstance() {
@@ -45,7 +44,6 @@ public class FirebaseDbAdapter {
             synchronized(FirebaseDbAdapter.class) {
                 if (instance == null) {
                     instance = new FirebaseDbAdapter();
-
                 }
             }
         }
@@ -53,48 +51,58 @@ public class FirebaseDbAdapter {
     }
 
     public List<Event> getEvents() {
-        if(b) {
-            List<String> members = new ArrayList<>();
-            members.add("memberA");
-            Event e1 = new Event("TitleA", Calendar.getInstance(), "Budapest, Placeholder street 45", members);
-            e1.setOwner(mAuth.getCurrentUser().getDisplayName());
-            members.clear();
-            members.add("memberB");
-            Event e2 = new Event("TitleB", Calendar.getInstance(), "Budapest, Placeholder street 45", members);
-            e2.setOwner(mAuth.getCurrentUser().getDisplayName());
-            members.clear();
-            members.add("memberc");
-            Event e3 = new Event("TitleC", Calendar.getInstance(), "Budapest, Placeholder street 45", members);
-            e3.setOwner(mAuth.getCurrentUser().getDisplayName());
-            events.add(e1);
-            events.add(e2);
-            events.add(e3);
-            b = false;
-        }
         return events;
     }
 
     public void createEvent(Event e) {
-        Log.w(TAG, "Event creation asked");
-        String str = mAuth.getCurrentUser().getDisplayName();
-        if(str != null) {
-            e.setOwner(str);
-            events.add(e);
-        } else {
-            Log.e(TAG, "There is no displayname");
-        }
+        e.setOwner(mAuth.getCurrentUser().getDisplayName());
+        e.setOwnerID(mAuth.getCurrentUser().getUid());
+        String key = eventCloudEndPoint.push().getKey();
+        e.setEventID(key);
+        eventCloudEndPoint.child(key).setValue(e).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, e.getMessage());
+            }
+        });
     }
 
     public void removeEvent(String eventID) {
-        Log.w(TAG, "An events removal has been requested");
+        eventCloudEndPoint.child(eventID).removeValue();
     }
 
     public void updateEvent(String eventID, Event e) {
-        Log.w(TAG, "An events update has been requested");
+        eventCloudEndPoint.child(eventID).setValue(e);
+        eventAdapter.notifyDataSetChanged();
     }
 
     public Event getEvent(String eventID) {
-        Log.w(TAG, "A specific event has been requested");
-        return events.get(events.size() - 1);
+        //TODO: ...
+        return null;
+    }
+
+    private void initDatabase() {
+        eventCloudEndPoint.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                events.clear();
+                for(DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
+                    Event event = eventSnapshot.getValue(Event.class);
+                    events.add(event);
+                    if(eventAdapter != null) {
+                        eventAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w(TAG, databaseError.getMessage());
+            }
+        });
+    }
+
+    public void setEventAdapter(EventAdapter ea) {
+        eventAdapter = ea;
     }
 }

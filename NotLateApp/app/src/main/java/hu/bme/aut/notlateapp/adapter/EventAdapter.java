@@ -16,6 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -42,6 +46,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
     public EventAdapter() {
         dbAdapter = FirebaseDbAdapter.getInstance();
+        dbAdapter.setEventAdapter(this);
         events = dbAdapter.getEvents();
     }
 
@@ -57,7 +62,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         final Event event = events.get(position);
 
         DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.JAPAN);
-        holder.date.setText(df.format(event.getDate().getTime()) + " - " + event.getTime());
+        holder.date.setText(df.format(event.getDateAsCalendar().getTime()) + " - " + event.getTime());
         holder.timeLeft.setText(event.getTimeLeft());
         holder.title.setText(event.getTitle());
         holder.owner.setText(event.getOwner());
@@ -93,7 +98,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         if(R.id.delete == item.getItemId()) {
-                            removeEvent(events.get(position));
+                            dbAdapter.removeEvent(events.get(position).getEventID());
                         }
                         if(R.id.edit == item.getItemId()) {
                             Event selectedPlace = (Event) getItem(position);
@@ -119,7 +124,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         return events.size();
     }
 
-    public void addEvent(Event e) {
+    /*public void addEvent(Event e) {
         dbAdapter.createEvent(e);
         //events.add(dbAdapter.getEvent(e.getEventID()));
         //notifyItemInserted(events.indexOf(e));
@@ -132,7 +137,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         events.remove(e);
         //notifyItemRemoved(position);
         notifyDataSetChanged();
-    }
+    }*/
 
     public void removeEvent(int position) {
         dbAdapter.removeEvent(events.get(position).getEventID());

@@ -27,9 +27,6 @@ import hu.bme.aut.notlateapp.model.Event;
 public class CreateEventActivity extends AppCompatActivity {
 
     public static final String KEY_EDIT_EVENT = "KEY_EDIT_PLACE";
-    public static final int KEY_EDIT_EVENT_CODE = 2;
-    public static final String KEY_NEW_EVENT = "KEY_NEW_EVENT";
-    public static final int KEY_NEW_EVENT_CODE = 1;
     public static final String KEY_EDIT_ID = "KEY_EDIT_ID";
 
     private FirebaseDbAdapter dbAdapter;
@@ -44,10 +41,8 @@ public class CreateEventActivity extends AppCompatActivity {
     private EditText members;
     private TextView setEventDateTV;
     private TextView tvTime;
-    private int year, month, day;
 
     private boolean inEditMode = false;
-    private int eventToEditID = 0;
     private Event eventToEdit = null;
 
     @Override
@@ -85,6 +80,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 } else {
                     List<String> member_list = new ArrayList<>();
                     member_list.add(members.getText().toString());
+                    //TODO: manage members of an event
                     onEventCreated(new Event(
                             title.getText().toString(),
                             calendar,
@@ -106,7 +102,7 @@ public class CreateEventActivity extends AppCompatActivity {
             i.putExtra(KEY_EDIT_EVENT, newEvent);
             i.putExtra(KEY_EDIT_ID, eventToEditID);
             setResult(KEY_EDIT_EVENT_CODE, i);*/
-            dbAdapter.updateEvent(eventToEdit.getEventID(), eventToEdit);
+            dbAdapter.updateEvent(eventToEdit.getEventID(), newEvent);
             finish();
         } else {
             /*Intent i = new Intent(CreateEventActivity.this, MainActivity.class);
@@ -137,11 +133,10 @@ public class CreateEventActivity extends AppCompatActivity {
         inEditMode = true;
 
         eventToEdit = (Event) getIntent().getSerializableExtra(KEY_EDIT_EVENT);
-        eventToEditID = getIntent().getIntExtra(KEY_EDIT_ID, -1);
 
         title.setText(eventToEdit.getTitle());
 
-        calendar = eventToEdit.getDate();
+        calendar = eventToEdit.getDateAsCalendar();
         updateLabel();
 
         location.setText(eventToEdit.getLocation());

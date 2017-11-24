@@ -20,7 +20,8 @@ import java.util.concurrent.TimeUnit;
 public class Event implements Serializable{
     public String eventID;
     public String title;
-    public String owner; //owner's user ID
+    public String owner;
+    public String ownerID;
     public String date;
     public String time;
     public String timeLeft;
@@ -29,6 +30,18 @@ public class Event implements Serializable{
 
     public Event() {}
 
+    public Event(String eventID, String title, String owner, String ownerID, String date, String time, String timeLeft, String location, List<String> members) {
+        this.eventID = eventID;
+        this.title = title;
+        this.owner = owner;
+        this.ownerID = ownerID;
+        this.date = date;
+        this.time = time;
+        this.timeLeft = timeLeft;
+        this.location = location;
+        this.members = members;
+    }
+
     public Event(String title, Calendar date, String location, List<String> members) {
         this.title = title;
         this.date = calendarToString(date);
@@ -36,6 +49,63 @@ public class Event implements Serializable{
         this.location = location;
         this.members = members;
         this.timeLeft = calculateDaysRemaining(date);
+    }
+
+    public String getDate() { return this.date; }
+    public void setDate(String date) { this.date = date; }
+
+    public String getTimeLeft() {
+        return timeLeft;
+    }
+    public void setTimeLeft(String timeLeft) {
+        this.timeLeft = timeLeft;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public List<String> getMembers() {
+        return members;
+    }
+    public void setMembers(List<String> members) {
+        this.members = members;
+    }
+
+    public String getEventID() {
+        return eventID;
+    }
+    public void setEventID(String eventID) { this.eventID = eventID; }
+
+    public String getTime() {
+        return time;
+    }
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getOwnerID() {
+        return ownerID;
+    }
+    public void setOwnerID(String ownerID) {
+        this.ownerID = ownerID;
     }
 
     public String calendarToHourAndMinute(Calendar date) {
@@ -66,64 +136,12 @@ public class Event implements Serializable{
         }
     }
 
-    public Calendar getDate() {
-        return stringToCalendar(date);
-    }
-
-    public void setDate(Calendar date) {
+    public void setDateByCalendar(Calendar date) {
         this.date = calendarToString(date);
         timeLeft = calculateDaysRemaining(date);
     }
 
-    public String getTimeLeft() {
-        return timeLeft;
-    }
-
-    public void setTimeLeft(String timeLeft) {
-        this.timeLeft = timeLeft;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public List<String> getMembers() {
-        return members;
-    }
-
-    public void setMembers(List<String> members) {
-        this.members = members;
-    }
-
-    public String getEventID() {
-        return eventID;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
+    public Calendar getDateAsCalendar() {
+        return stringToCalendar(date);
     }
 }

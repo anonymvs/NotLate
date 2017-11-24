@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import hu.bme.aut.notlateapp.adapter.FirebaseDbAdapter;
 import hu.bme.aut.notlateapp.fragments.AccountFragment;
 import hu.bme.aut.notlateapp.fragments.EventListFragment;
 import hu.bme.aut.notlateapp.fragments.SettingsFragment;
@@ -29,11 +30,14 @@ import static java.security.AccessController.getContext;
 public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private BottomNavigationView bottomNavigationView;
+    private FirebaseDbAdapter dbAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        dbAdapter = FirebaseDbAdapter.getInstance();
 
         bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.navigation);
@@ -100,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
+                finish();
         }
         return true;
     }
