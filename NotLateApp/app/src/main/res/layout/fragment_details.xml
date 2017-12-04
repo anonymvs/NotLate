@@ -31,7 +31,6 @@
         android:padding="8dp"
         android:textColor="#000000"
         tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle"
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="@+id/tvTitle" />
@@ -80,7 +79,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/tvMembersTitle"
-        tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         app:layout_constraintRight_toRightOf="@+id/tvLocation"
         app:layout_constraintBottom_toTopOf="@+id/tvMembers"
@@ -88,27 +86,47 @@
         app:layout_constraintLeft_toLeftOf="@+id/tvLocation" />
 
     <View
-        android:layout_width="fill_parent"
+        android:id="@+id/vUpper"
+        android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="#c0c0c0"
         app:layout_constraintTop_toBottomOf="@+id/tvLocation"
         android:layout_margin="2dp"
-        />
+        tools:layout_editor_absoluteX="2dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/my_container"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/vUpper"
+        app:layout_constraintBottom_toTopOf="@+id/vBelow"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:context="hu.bme.aut.notlateapp.fragments.MyMapFragment">
+
+        <include layout="@layout/fragment_map" />
+
+    </FrameLayout>
 
     <View
-        android:layout_width="fill_parent"
+        android:id="@+id/vBelow"
+        android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="#c0c0c0"
         app:layout_constraintBottom_toTopOf="@+id/tvOwnerTitle"
         android:layout_margin="2dp"
-        />
+        tools:layout_editor_absoluteX="2dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
 
     <TextView
         android:text="xyz, adfsda, as df, "
         android:id="@+id/tvMembers"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         app:layout_constraintRight_toRightOf="@+id/tvMembersTitle"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -128,5 +146,6 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="100dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="100dp" />
 </android.support.constraint.ConstraintLayout>

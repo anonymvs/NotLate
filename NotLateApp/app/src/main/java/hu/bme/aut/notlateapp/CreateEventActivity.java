@@ -14,6 +14,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.GeoDataClient;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlacePicker;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,6 +35,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
     public static final String KEY_EDIT_EVENT = "KEY_EDIT_PLACE";
     public static final String KEY_EDIT_ID = "KEY_EDIT_ID";
+    public static final int PLACE_PICKER_REQUEST = 1;
 
     private FirebaseDbAdapter dbAdapter;
 
@@ -37,7 +45,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
     private Calendar calendar;
     private EditText title;
-    private EditText location;
+    private TextView location;
     private EditText members;
     private TextView setEventDateTV;
     private TextView tvTime;
@@ -119,7 +127,22 @@ public class CreateEventActivity extends AppCompatActivity {
         btnCreate = (Button) findViewById(R.id.btnCreate);
 
         title = (EditText) findViewById(R.id.etTitle);
-        location = (EditText) findViewById(R.id.etLocation);
+
+        location = (TextView) findViewById(R.id.tvLocation);
+        location.setText("Select address");
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                try {
+                    startActivityForResult(builder.build(CreateEventActivity.this), PLACE_PICKER_REQUEST );
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         members = (EditText) findViewById(R.id.etMembers);
 
         calendar = Calendar.getInstance();
@@ -196,6 +219,13 @@ public class CreateEventActivity extends AppCompatActivity {
                 updateLabel();
             }
         };
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Place place = PlacePicker.getPlace(CreateEventActivity.this, data);
+        String toastMsg = String.format("Place: %s", place.getName());
+        Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+        location.setText(place.getAddress());
     }
 
 }
