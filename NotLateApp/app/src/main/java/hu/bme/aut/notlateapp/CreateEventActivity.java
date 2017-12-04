@@ -79,8 +79,10 @@ public class CreateEventActivity extends AppCompatActivity {
                     Toast.makeText(CreateEventActivity.this, "Title is required", Toast.LENGTH_SHORT).show();
                 } else {
                     List<String> member_list = new ArrayList<>();
-                    member_list.add(members.getText().toString());
-                    //TODO: manage members of an event
+                    String strarray[] = members.getText().toString().split(" ");
+                    for(String str : strarray) {
+                        member_list.add(str);
+                    }
                     onEventCreated(new Event(
                             title.getText().toString(),
                             calendar,
@@ -136,12 +138,14 @@ public class CreateEventActivity extends AppCompatActivity {
 
         title.setText(eventToEdit.getTitle());
 
-        calendar = eventToEdit.getDateAsCalendar();
+        calendar = eventToEdit.askDateAsCalendar();
         updateLabel();
 
         location.setText(eventToEdit.getLocation());
 
-        members.setText(eventToEdit.getMembers().get(0));
+        if(eventToEdit.hasMembers()) {
+            members.setText(eventToEdit.askAllMembersWithoutComma());
+        }
 
         btnCreate.setText(R.string.submit_changes);
     }
@@ -154,7 +158,21 @@ public class CreateEventActivity extends AppCompatActivity {
 
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
-        tvTime.setText(hour + ":" + minute);
+
+        String strH, strM;
+        String zero = "0";
+
+        if(hour < 10) {
+            strH = zero + hour;
+        } else {
+            strH = "" + hour;
+        }
+        if(minute < 10) {
+            strM = zero + minute;
+        } else {
+            strM = "" + minute;
+        }
+        tvTime.setText(strH + ":" + strM);
     }
 
     private DatePickerDialog.OnDateSetListener dateSetDialogListener() {

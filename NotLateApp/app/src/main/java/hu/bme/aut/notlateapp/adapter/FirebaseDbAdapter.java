@@ -2,7 +2,10 @@ package hu.bme.aut.notlateapp.adapter;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
+
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -10,6 +13,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import hu.bme.aut.notlateapp.model.Event;
@@ -37,6 +41,7 @@ public class FirebaseDbAdapter {
         events = new ArrayList<>();
 
         initDatabase();
+
     }
 
     public static FirebaseDbAdapter getInstance() {
@@ -72,8 +77,17 @@ public class FirebaseDbAdapter {
     }
 
     public void updateEvent(String eventID, Event e) {
-        eventCloudEndPoint.child(eventID).setValue(e);
-        eventAdapter.notifyDataSetChanged();
+        e.setEventID(eventID);
+        e.setOwner(mAuth.getCurrentUser().getDisplayName());
+        e.setOwnerID(mAuth.getCurrentUser().getUid());
+        eventCloudEndPoint.child(eventID).setValue(e).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onComplete: Failed=" + e.getMessage());
+            }
+        });
+        eventAdapter.notifyOnDataSetChanged();
+        Log.d(TAG, "waaa");
     }
 
     public Event getEvent(String eventID) {
@@ -89,9 +103,9 @@ public class FirebaseDbAdapter {
                 for(DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
                     Event event = eventSnapshot.getValue(Event.class);
                     events.add(event);
-                    if(eventAdapter != null) {
-                        eventAdapter.notifyDataSetChanged();
-                    }
+                }
+                if(eventAdapter != null) {
+                    eventAdapter.notifyOnDataSetChanged();
                 }
             }
 

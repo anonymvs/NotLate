@@ -8,10 +8,6 @@
         app:showAsAction="ifRoom"
         />
     <item
-        android:id="@+id/action_refresh"
-        android:title="Refresh"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/action_logout"
         android:title="Logout"
         app:showAsAction="never"/>

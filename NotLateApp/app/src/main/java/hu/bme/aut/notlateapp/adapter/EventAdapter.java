@@ -25,6 +25,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -43,11 +46,25 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     private List<Event> events = new ArrayList<>();
     private FirebaseDbAdapter dbAdapter;
     private Context context;
+    private Comparator<Event> cmp;
 
     public EventAdapter() {
         dbAdapter = FirebaseDbAdapter.getInstance();
         dbAdapter.setEventAdapter(this);
         events = dbAdapter.getEvents();
+        cmp = new Comparator<Event>() {
+            @Override
+            public int compare(Event event, Event t1) {
+                if(event.isArchived() && !t1.isArchived()) {
+                    return 1;
+                } else if(!event.isArchived() && t1.isArchived()) {
+                    return -1;
+                }
+                Calendar calendarE = event.askDateAsCalendar();
+                Calendar calendarT1 = t1.askDateAsCalendar();
+                return calendarE.compareTo(calendarT1);
+            }
+        };
     }
 
     @Override
@@ -62,17 +79,33 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         final Event event = events.get(position);
 
         DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.JAPAN);
-        holder.date.setText(df.format(event.getDateAsCalendar().getTime()) + " - " + event.getTime());
-        holder.timeLeft.setText(event.getTimeLeft());
+        holder.date.setText(df.format(event.askDateAsCalendar().getTime()) + " - " + event.askFormattedTime());
+        holder.timeLeft.setText(event.askCalculatedTimeLeft());
         holder.title.setText(event.getTitle());
         holder.owner.setText(event.getOwner());
         holder.location.setText(event.getLocation());
+        holder.members.setText(event.askAllMembers());
         holder.mEvent = event;
 
         if(position % 2 == 0)
             holder.mView.setBackgroundColor(Color.parseColor("#e2e2e2"));
         else
-            //holder.mView.setBackgroundColor(Color.parseColor("#d3d3d3"));
+            holder.mView.setBackgroundColor(Color.parseColor("#ffffff"));
+
+        switch (event.askCalculatedTimeLeft()) {
+            case ("already late") :
+                holder.mView.setBackgroundColor(Color.parseColor("#ef9a9a"));
+                break;
+            case ("today") :
+                holder.mView.setBackgroundColor(Color.parseColor("#fff59d"));
+                break;
+            case ("tomorrow") :
+                holder.mView.setBackgroundColor(Color.parseColor("#fff59d"));
+                break;
+            case ("archived") :
+                holder.mView.setBackgroundColor(Color.parseColor("#a5d6a7"));
+                break;
+        }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +131,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         if(R.id.delete == item.getItemId()) {
-                            dbAdapter.removeEvent(events.get(position).getEventID());
+                            removeEvent(position);
                         }
                         if(R.id.edit == item.getItemId()) {
                             Event selectedPlace = (Event) getItem(position);
@@ -124,30 +157,31 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         return events.size();
     }
 
-    /*public void addEvent(Event e) {
-        dbAdapter.createEvent(e);
-        //events.add(dbAdapter.getEvent(e.getEventID()));
-        //notifyItemInserted(events.indexOf(e));
-        notifyDataSetChanged();
-    }
-
-    public void removeEvent(Event e) {
-        int position = events.indexOf(e);
-        dbAdapter.removeEvent(e.getEventID());
-        events.remove(e);
-        //notifyItemRemoved(position);
-        notifyDataSetChanged();
-    }*/
-
     public void removeEvent(int position) {
         dbAdapter.removeEvent(events.get(position).getEventID());
         events.remove(events.get(position));
         //notifyItemRemoved(position);
+        notifyOnDataSetChanged();
+    }
+
+    public void notifyOnDataSetChanged() {
+        Collections.sort(events, cmp);
         notifyDataSetChanged();
     }
 
     public Event getItem(int i) {
         return events.get(i);
+    }
+
+    public void toggleArchived(int position) {
+        Event e = events.get(position);
+        if(e.isArchived()) {
+            e.setArchived(false);
+        } else {
+            e.setArchived(true);
+        }
+        events.set(position, e);
+        dbAdapter.updateEvent(e.getEventID(), e);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -157,6 +191,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         public final TextView title;
         public final TextView owner;
         public final TextView location;
+        public final TextView members;
         public Event mEvent;
 
         public ViewHolder(View view) {
@@ -167,6 +202,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             title = (TextView) view.findViewById(R.id.eventTitle);
             owner = (TextView) view.findViewById(R.id.eventOwner);
             location = (TextView) view.findViewById(R.id.eventAddress);
+            members = (TextView) view.findViewById(R.id.eventMembers);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

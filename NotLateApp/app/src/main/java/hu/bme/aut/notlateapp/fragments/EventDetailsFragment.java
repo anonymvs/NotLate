@@ -53,13 +53,13 @@ public class EventDetailsFragment extends Fragment {
         TextView tvTitle = (TextView) getView().findViewById(R.id.tvTitle);
         tvTitle.setText(myEvent.getTitle());
         TextView tvDate = (TextView) getView().findViewById(R.id.tvDate);
-        tvDate.setText(myEvent.calendarToString(myEvent.getDateAsCalendar()) + " - " + myEvent.getTime());
+        tvDate.setText(myEvent.calendarToString(myEvent.askDateAsCalendar()) + " - " + myEvent.askFormattedTime());
         TextView tvTimeLeft = (TextView) getView().findViewById(R.id.tvTimeLeft);
-        tvTimeLeft.setText(myEvent.getTimeLeft());
+        tvTimeLeft.setText(myEvent.askCalculatedTimeLeft());
         TextView tvLocation = (TextView) getView().findViewById(R.id.tvLocation);
         tvLocation.setText(myEvent.getLocation());
         TextView tvMembers = (TextView) getView().findViewById(R.id.tvMembers);
-        tvMembers.setText(myEvent.getMembers().get(0));
+        tvMembers.setText(myEvent.askAllMembers());
         TextView tvOwner = (TextView) getView().findViewById(R.id.tvOwner);
         tvOwner.setText(myEvent.getOwner());
     }

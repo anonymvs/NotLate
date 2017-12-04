@@ -62,7 +62,8 @@ public class EventListFragment extends Fragment {
             }
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                myAdapter.removeEvent(viewHolder.getAdapterPosition());
+                myAdapter.toggleArchived(viewHolder.getAdapterPosition());
+                //myAdapter.removeEvent(viewHolder.getAdapterPosition());
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);

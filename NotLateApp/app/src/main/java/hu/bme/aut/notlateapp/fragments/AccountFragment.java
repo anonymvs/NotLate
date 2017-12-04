@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -22,6 +23,9 @@ import hu.bme.aut.notlateapp.R;
  */
 
 public class AccountFragment extends Fragment {
+
+    FirebaseAuth mAuth;
+
     public static AccountFragment newInstance() {
         AccountFragment fragment = new AccountFragment();
         return fragment;
@@ -40,15 +44,11 @@ public class AccountFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        Button btnLogout = (Button) getView().findViewById(R.id.btnLogout);
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getContext(), LoginActivity.class);
-                startActivity(intent);
-            }
-        });
+        mAuth = FirebaseAuth.getInstance();
+        TextView tvUsername = (TextView) view.findViewById(R.id.tvUsername);
+        tvUsername.setText(mAuth.getCurrentUser().getDisplayName());
+        TextView tvEmail = (TextView) view.findViewById(R.id.tvEmailAddress);
+        tvEmail.setText(mAuth.getCurrentUser().getEmail());
     }
 
     @Override

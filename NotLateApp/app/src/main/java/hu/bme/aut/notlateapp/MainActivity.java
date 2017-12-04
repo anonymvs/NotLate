@@ -96,10 +96,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent i = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(i);
                 break;
-            case (R.id.action_refresh) :
-                //TODO: action_refresh menu implementation
-                Toast.makeText(MainActivity.this, "Refresh", Toast.LENGTH_SHORT).show();
-                break;
             case (R.id.action_logout) :
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
