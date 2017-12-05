@@ -86,8 +86,8 @@ public class CreateEventActivity extends AppCompatActivity {
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(title.getText().toString().trim().equals("")) {
-                    Toast.makeText(CreateEventActivity.this, "Title is required", Toast.LENGTH_SHORT).show();
+                if(title.getText().toString().trim().equals("") || location.getText().toString().trim().equals("")) {
+                    Toast.makeText(CreateEventActivity.this, "Title and Location is required", Toast.LENGTH_SHORT).show();
                 } else {
                     List<String> member_list = new ArrayList<>();
                     String strarray[] = members.getText().toString().split(" ");
