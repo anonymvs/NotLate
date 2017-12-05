@@ -46,12 +46,15 @@ public class CreateEventActivity extends AppCompatActivity {
     private Calendar calendar;
     private EditText title;
     private TextView location;
+    private String locationID;
     private EditText members;
     private TextView setEventDateTV;
     private TextView tvTime;
 
     private boolean inEditMode = false;
     private Event eventToEdit = null;
+
+    private boolean hasLocation = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +98,7 @@ public class CreateEventActivity extends AppCompatActivity {
                             title.getText().toString(),
                             calendar,
                             location.getText().toString(),
+                            locationID,
                             member_list
                             ));
                 }
@@ -129,8 +133,8 @@ public class CreateEventActivity extends AppCompatActivity {
         title = (EditText) findViewById(R.id.etTitle);
 
         location = (TextView) findViewById(R.id.tvLocation);
-        location.setText("Select address");
-        location.setOnClickListener(new View.OnClickListener() {
+        Button btnPickPlace = (Button) findViewById(R.id.btnPickPlace);
+        btnPickPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
@@ -143,6 +147,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 }
             }
         });
+
         members = (EditText) findViewById(R.id.etMembers);
 
         calendar = Calendar.getInstance();
@@ -165,6 +170,7 @@ public class CreateEventActivity extends AppCompatActivity {
         updateLabel();
 
         location.setText(eventToEdit.getLocation());
+        locationID = eventToEdit.getLocationID();
 
         if(eventToEdit.hasMembers()) {
             members.setText(eventToEdit.askAllMembersWithoutComma());
@@ -222,10 +228,18 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Place place = PlacePicker.getPlace(CreateEventActivity.this, data);
-        String toastMsg = String.format("Place: %s", place.getName());
-        Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
-        location.setText(place.getAddress());
+        if(requestCode == PLACE_PICKER_REQUEST) {
+            if(resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(CreateEventActivity.this, data);
+                String toastMsg = String.format("Place: %s", place.getName());
+                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+                location.setText(place.getAddress());
+                locationID = place.getId();
+                hasLocation = true;
+            }
+        } else {
+            hasLocation = false;
+        }
     }
 
 }

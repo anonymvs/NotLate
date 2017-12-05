@@ -28,12 +28,13 @@ public class Event implements Serializable {
     public String date;
     public String time;
     public String location; //android location conversion
+    public String locationID;
     public boolean isArchived;
     public List<String> members; //separated list of user IDs
 
     public Event() {}
 
-    public Event(String eventID, String title, String owner, String ownerID, String date, String time, String location, boolean isArchived, List<String> members) {
+    public Event(String eventID, String title, String owner, String ownerID, String date, String time, String location, String locationID, boolean isArchived, List<String> members) {
         this.eventID = eventID;
         this.title = title;
         this.owner = owner;
@@ -41,15 +42,17 @@ public class Event implements Serializable {
         this.date = date;
         this.time = time;
         this.location = location;
+        this.locationID = locationID;
         this.isArchived = isArchived;
         this.members = members;
     }
 
-    public Event(String title, Calendar date, String location, List<String> members) {
+    public Event(String title, Calendar date, String location, String locationID, List<String> members) {
         this.title = title;
         this.date = calendarToString(date);
         this.time = calendarToHourAndMinute(date);
         this.location = location;
+        this.locationID = locationID;
         this.members = members;
         this.isArchived = false;
     }
@@ -76,6 +79,14 @@ public class Event implements Serializable {
     }
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getLocationID() {
+        return locationID;
+    }
+
+    public void setLocationID(String locationID) {
+        this.locationID = locationID;
     }
 
     public List<String> getMembers() {
@@ -227,8 +238,8 @@ public class Event implements Serializable {
 
     public boolean hasMembers() {
         if(members.size() != 0 || members.get(0).equals("")) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 }

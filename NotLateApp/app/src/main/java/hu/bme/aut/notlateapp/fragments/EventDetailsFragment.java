@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import hu.bme.aut.notlateapp.R;
 import hu.bme.aut.notlateapp.adapter.EventAdapter;
 import hu.bme.aut.notlateapp.model.Event;
+
+import static hu.bme.aut.notlateapp.adapter.EventAdapter.FRAGMENT_PAYLOAD;
 
 public class EventDetailsFragment extends Fragment {
     private static String TAG = "MY EventDetailsFragment:";
@@ -48,7 +51,7 @@ public class EventDetailsFragment extends Fragment {
         //myEvent = (Event) savedInstanceState.getSerializable(EventAdapter.FRAGMENT_PAYLOAD);
         Bundle bundle = this.getArguments();
         if(bundle != null) {
-            myEvent = (Event) bundle.getSerializable(EventAdapter.FRAGMENT_PAYLOAD);
+            myEvent = (Event) bundle.getSerializable(FRAGMENT_PAYLOAD);
         }
 
         TextView tvTitle = (TextView) getView().findViewById(R.id.tvTitle);
@@ -64,7 +67,11 @@ public class EventDetailsFragment extends Fragment {
         TextView tvOwner = (TextView) getView().findViewById(R.id.tvOwner);
         tvOwner.setText(myEvent.getOwner());
 
+        Bundle mbundle = new Bundle();
+        mbundle.putSerializable(FRAGMENT_PAYLOAD, myEvent);
+
         mMapFragment = MyMapFragment.newInstance();
+        mMapFragment.setArguments(mbundle);
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.my_container, mMapFragment);
         fragmentTransaction.commit();

@@ -36,7 +36,7 @@ public class FirebaseDbAdapter {
     private FirebaseDbAdapter() {
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance().getReference();
-        eventCloudEndPoint = database.child("events");
+        eventCloudEndPoint = database.child("eventspp");
 
         events = new ArrayList<>();
 
