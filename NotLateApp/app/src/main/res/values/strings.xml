@@ -57,5 +57,22 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create">Create</string>
+    <string name="pick_a_place">Pick a place</string>
+    <string name="your_address_comes_here">Your address comes here</string>
+    <string name="gender">Gender:</string>
+    <string name="username">Username:</string>
+    <string name="dummy">dummy</string>
+    <string name="e_mail">E-mail:</string>
+    <string name="title">Title</string>
+    <string name="owner">Owner:</string>
+    <string name="events">Events</string>
+    <string name="statistics">Statistics</string>
+    <string name="profil">Profil</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="save_to_calendar">Save to Calendar</string>
+    <string name="settings">Settings</string>
+    <string name="logout">Logout</string>
 
 </resources>

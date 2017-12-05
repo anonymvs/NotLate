@@ -19,13 +19,13 @@
         android:layout_below="@+id/ivProfile">
 
         <TextView
-            android:text="Username:"
+            android:text="@string/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#555555"/>
 
        <TextView
-           android:text="dummy"
+           android:text="@string/dummy"
            android:id="@+id/tvUsername"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
@@ -34,13 +34,13 @@
            android:paddingBottom="16dp"/>
 
         <TextView
-            android:text="E-mail:"
+            android:text="@string/e_mail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#555555" />
 
         <TextView
-            android:text="dummy"
+            android:text="@string/dummy"
             android:id="@+id/tvEmailAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

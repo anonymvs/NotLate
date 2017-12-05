@@ -4,13 +4,13 @@
     <item
         android:id="@+id/action_one"
         android:icon="@drawable/ic_event_white_24dp"
-        android:title="Events"/>
+        android:title="@string/events"/>
     <item
         android:id="@+id/action_two"
         android:icon="@drawable/ic_data_usage_white_24dp"
-        android:title="Statistics"/>
+        android:title="@string/statistics"/>
     <item
         android:id="@+id/action_three"
         android:icon="@drawable/ic_account_circle_white_24dp"
-        android:title="Profil"/>
+        android:title="@string/profil"/>
 </menu>

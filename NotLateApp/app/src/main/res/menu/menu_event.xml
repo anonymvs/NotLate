@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/delete"
-        android:title="Delete"
-        app:showAsAction="always" />
+        android:title="@string/delete"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/edit"
-        android:title="Edit"
-        app:showAsAction="always" />
+        android:title="@string/edit"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/calendar"
-        android:title="Save to Calendar"
-        app:showAsAction="always" />
+        android:title="@string/save_to_calendar"
+        app:showAsAction="ifRoom" />
 </menu>

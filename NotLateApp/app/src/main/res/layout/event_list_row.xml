@@ -10,7 +10,6 @@
 
         <TextView
             android:id="@+id/eventTitle"
-            android:text="Title"
             android:textSize="16dp"
             android:textStyle="bold"
             android:layout_width="wrap_content"
@@ -18,7 +17,6 @@
 
         <TextView
             android:id="@+id/eventOwner"
-            android:text="by: Owner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"/>
@@ -31,13 +29,11 @@
 
         <TextView
             android:id="@+id/eventDate"
-            android:text="date.date.date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/eventTimeLeft"
-            android:text="2 days"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"/>
@@ -50,13 +46,11 @@
 
         <TextView
             android:id="@+id/eventAddress"
-            android:text="bp, you know where"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/eventMembers"
-            android:text="dafsfsfd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"/>

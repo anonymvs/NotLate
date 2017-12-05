@@ -169,7 +169,8 @@ public class Event implements Serializable {
         if(isArchived) {
             return "archived";
         }
-        if (eventDate.get(Calendar.DAY_OF_MONTH) == currentDate.get(Calendar.DAY_OF_MONTH)) {
+        if (eventDate.get(Calendar.DAY_OF_MONTH) == currentDate.get(Calendar.DAY_OF_MONTH) &&
+                hours > 0) {
             return "today";
         }
         currentDate.add(Calendar.DATE, 1);
