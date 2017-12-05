@@ -38,15 +38,12 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 1;
     private Toolbar toolbar;
     private BottomNavigationView bottomNavigationView;
-    private FirebaseDbAdapter dbAdapter;
     private boolean mLocationPermissionGranted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        dbAdapter = FirebaseDbAdapter.getInstance();
 
         bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.navigation);
