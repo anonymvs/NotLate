@@ -15,6 +15,10 @@
         android:orientation="vertical"
         android:layout_gravity="bottom"
         >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/notlateapp"/>
     <TextView
         android:text="@string/email_login"
         android:layout_width="wrap_content"
